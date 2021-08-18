@@ -13,8 +13,10 @@ const DummyArray: PlaceInterface[] = [
         address: 'Magna qui minim mollit esse pariatur esse eu incididunt deserunt sit deserunt magna enim.',
         image: 'https://placeimg.com/640/480/architure',
         creatorId: 'u1',
-        latitude: '0',
-        longitude: '0',
+        coordinates: {
+            lat: 37.7749295,
+            lng: -122.4194155
+        }
     },
     {
         id: 'dasddasd',
@@ -22,9 +24,11 @@ const DummyArray: PlaceInterface[] = [
         description: 'Test Description',
         address: 'Test Address',
         image: 'https://placeimg.com/640/480/architure',
-        creatorId: 'test',
-        latitude: '0',
-        longitude: '0',
+        creatorId: 'u2',
+        coordinates: {
+            lat: 37.7749295,
+            lng: -1.4194155
+        }
     }
 ]
 

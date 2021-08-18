@@ -3,8 +3,7 @@ export interface PlaceInterface {
     title: string;
     description: string;
     address: string;
-    latitude: string;
-    longitude: string;
+    coordinates: google.maps.LatLngLiteral;
     image: string;
     creatorId: string;
 }
