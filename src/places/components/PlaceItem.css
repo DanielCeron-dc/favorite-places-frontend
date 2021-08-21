@@ -1,7 +1,9 @@
 .place-item {
   margin: 1rem 0;
-
+  width: 35rem;
+  max-width: 35rem;
 }
+
 
 .place-item__content {
   padding: 0;
@@ -50,14 +52,11 @@
   margin: 0.5rem;
 }
 
-.map-container {
-
-  height: 20rem; 
-  width: 100%;
-}
 
 @media (min-width: 768px) {
   .place-item__image {
     height: 20rem;
   } 
+ 
+ 
 }

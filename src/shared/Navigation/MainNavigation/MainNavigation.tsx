@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from "react-router-dom";
 
 import "./MainNavigation.css";
-import MainHeader from './MainHeader';
-import NavLinks from './NavLinks';
-import SideDrawer from './SideDrawer';
-import Backdrop from '../components/Backdrop/Backdrop';
+import MainHeader from '../Header/MainHeader';
+import NavLinks from '../Links/NavLinks';
+import SideDrawer from '../SideDrawer/SideDrawer';
+import Backdrop from '../../components/Backdrop/Backdrop';
 
 import { AnimatePresence } from "framer-motion";
 
@@ -16,7 +16,7 @@ const MainNavigation: React.FC = () => {
     const history = useHistory();
 
     useEffect(() => {
-        history.listen(location => {
+        history.listen(() => {
             setDrawerIsOpen(false);
         });
     }, [history]);

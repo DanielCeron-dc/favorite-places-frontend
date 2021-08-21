@@ -1,11 +1,12 @@
-import React, { useEffect, useRef } from 'react';
+import React, { CSSProperties, useEffect, useRef } from 'react';
 
-type MapProps = {
+interface MapProps {
     center?: google.maps.LatLngLiteral;
     zoom?: number;
+    style?: CSSProperties;
 };
 
-const Map: React.FC<MapProps> = ({ center = { lat: 30, lng: -110 }, zoom = 8 }) => {
+const Map: React.FC<MapProps> = ({ center = { lat: 30, lng: -110 }, zoom = 8, style }) => {
 
     const refMap = useRef<HTMLDivElement>(null);
 
@@ -20,6 +21,6 @@ const Map: React.FC<MapProps> = ({ center = { lat: 30, lng: -110 }, zoom = 8 }) 
         new google.maps.Marker({ position: center, map });
     }, [])
 
-    return <div ref={refMap} style={{ width: '100%', height: '100%' }} />
+    return <div ref={refMap} style={style} />
 }
 export default Map;

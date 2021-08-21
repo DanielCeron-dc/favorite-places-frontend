@@ -2,7 +2,7 @@ import './App.css';
 import { Route, Redirect, Switch } from "react-router-dom";
 import Users from './user/pages/Users';
 import NewUser from './places/pages/New-User';
-import MainNavigation from './shared/Navigation/MainNavigation';
+import MainNavigation from './shared/Navigation/MainNavigation/MainNavigation';
 import UserPlaces from './places/pages/UserPlaces';
 
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import Card from '../../shared/components/Card';
-import Button from '../../shared/components/FormElments/Button';
+import Button from '../../shared/form/form-utils/Button/Button';
 import { PlaceInterface } from '../PlaceInterface';
 import PlaceItem from './PlaceItem';
 import "./PlaceList.css";
