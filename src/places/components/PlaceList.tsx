@@ -1,6 +1,9 @@
 import React from 'react';
+import { useHistory , useRouteMatch} from 'react-router-dom'; 
+
+
 import Card from '../../shared/components/Card';
-import Button from '../../shared/form/form-utils/Button/Button';
+import Button from '../../shared/form/Button/Button';
 import { PlaceInterface } from '../PlaceInterface';
 import PlaceItem from './PlaceItem';
 import "./PlaceList.css";
@@ -11,9 +14,12 @@ type PlaceListProps = {
 
 const PlaceList: React.FC<PlaceListProps> = (props) => {
 
+    const history = useHistory();
+    const { url} = useRouteMatch();
+
     return props.places.length === 0 ?
-        <div className="place-list" style={{ backgroundColor: "white" }}>
-            <Card>
+        <div className="place-list" >
+            <Card style={{backgroundColor: 'white', height: '12rem', margin: 20}}>
                 <div style={{
                     display: "flex",
                     flexDirection: "column",
@@ -22,7 +28,9 @@ const PlaceList: React.FC<PlaceListProps> = (props) => {
                     padding: "20px"
                 }}>
                     <h2>No places found. Maybe create one ? </h2>
-                    <Button  >Add Place</Button>
+                    <Button
+                        onClick={() => history.push(url + "/new")}
+                    >Add Place</Button>
                 </div>
             </Card>
         </div> :

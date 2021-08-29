@@ -4,7 +4,7 @@ import "./Button.css"
 
 
 interface baseProps extends React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
-    inverse?: boolean;
+    inverseStyle?: boolean;
     size?: string;
     danger?: boolean;
 };
@@ -25,7 +25,7 @@ const Button: React.FC<ButtonProps> = (props) => {
     if (props.href) {
         return (
             <a
-                className={`button button--${props.size || 'default'} ${props.inverse &&
+                className={`button button--${props.size || 'default'} ${props.inverseStyle &&
                     'button--inverse'} ${props.danger && 'button--danger'}`}
                 href={props.href}
             >
@@ -37,7 +37,7 @@ const Button: React.FC<ButtonProps> = (props) => {
         return (
             <Link
                 to={props.to}
-                className={`button button--${props.size || 'default'} ${props.inverse &&
+                className={`button button--${props.size || 'default'} ${props.inverseStyle &&
                     'button--inverse'} ${props.danger && 'button--danger'}`}
             >
                 {props.children}
@@ -50,7 +50,7 @@ const Button: React.FC<ButtonProps> = (props) => {
             onClick={props.onClick}
             disabled={props.disabled}
             {...props}
-            className={`button button--${props.size || 'default'} ${props.inverse &&
+            className={`button button--${props.size || 'default'} ${props.inverseStyle &&
                 'button--inverse'} ${props.danger && 'button--danger'}  ${props.className}`}
         >
             {props.children}

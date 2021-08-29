@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory} from 'react-router-dom';
 import "./NavLinks.css";
 
 type NavLinksProps = {
@@ -7,6 +7,8 @@ type NavLinksProps = {
 };
 
 const NavLinks: React.FC<NavLinksProps> = () => {
+
+    const {location} = useHistory(); 
 
     return <ul className="nav-links">
         <li><NavLink to="/users" exact >ALL USERS </NavLink> </li>

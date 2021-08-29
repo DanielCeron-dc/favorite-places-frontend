@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { CSSProperties, useEffect, useState } from 'react';
 import { Link, useHistory } from "react-router-dom";
 
 import "./MainNavigation.css";
@@ -10,7 +10,7 @@ import Backdrop from '../../components/Backdrop/Backdrop';
 import { AnimatePresence } from "framer-motion";
 
 
-const MainNavigation: React.FC = () => {
+const MainNavigation: React.FC<{style?:CSSProperties}> = (props) => {
 
     const [drawerIsOpen, setDrawerIsOpen] = useState<boolean>(false);
     const history = useHistory();
@@ -37,7 +37,7 @@ const MainNavigation: React.FC = () => {
         </AnimatePresence>
         {/* mobile navigation*/}
 
-        <MainHeader>
+        <MainHeader style={props.style}>
             <button className="main-navigation__menu-btn" onClick={() => setDrawerIsOpen(true)}>
                 <span />
                 <span />

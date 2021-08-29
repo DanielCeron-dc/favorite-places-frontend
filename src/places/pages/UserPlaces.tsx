@@ -1,7 +1,7 @@
 
 import React from 'react';
-import { useParams, useHistory } from "react-router-dom";
-import Button from '../../shared/form/form-utils/Button/Button';
+import { useHistory, useParams, useRouteMatch } from "react-router-dom";
+import Button from '../../shared/form/Button/Button';
 
 
 import PlaceList from '../components/PlaceList';
@@ -36,7 +36,7 @@ const DummyArray: PlaceInterface[] = [
         }
     },
     {
-        id: 'dasddasd',
+        id: 'dasddasdasdadd',
         title: 'Test Place',
         description: 'Test Description',
         address: 'Test Address',
@@ -48,7 +48,7 @@ const DummyArray: PlaceInterface[] = [
         }
     },
     {
-        id: 'dasddasd',
+        id: 'dasd',
         title: 'Test Place',
         description: 'Test Description',
         address: 'Test Address',
@@ -64,13 +64,20 @@ const DummyArray: PlaceInterface[] = [
 const UserPlaces: React.FC = () => {
 
     const { userId } = useParams<{ userId: string }>();
-    const history = useHistory();
+    const {url } = useRouteMatch();
+    const history = useHistory(); 
+
 
     const filteredArray = DummyArray.filter(place => place.creatorId === userId);
 
     return <>
         <PlaceList places={filteredArray} />
-        <Button onClick={() => history.push("/places/addPlace")} style={{ position: 'fixed', bottom: 0, right: 0, margin: '5vh' }}> +  Add Place</Button>
+        <Button
+            onClick={() => history.push( url+"/new")}
+            style={{ position: 'fixed', bottom: 0, right: 0, margin: '5vh' }}
+        >
+            +  Add Place
+        </Button>
     </>
 }
 export default UserPlaces;

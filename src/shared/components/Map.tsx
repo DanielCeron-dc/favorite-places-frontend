@@ -4,9 +4,10 @@ interface MapProps {
     center?: google.maps.LatLngLiteral;
     zoom?: number;
     style?: CSSProperties;
+    className?: string;
 };
 
-const Map: React.FC<MapProps> = ({ center = { lat: 30, lng: -110 }, zoom = 8, style }) => {
+const Map: React.FC<MapProps> = ({ center = { lat: 30, lng: -110 }, zoom = 8, style , className}) => {
 
     const refMap = useRef<HTMLDivElement>(null);
 
@@ -21,6 +22,6 @@ const Map: React.FC<MapProps> = ({ center = { lat: 30, lng: -110 }, zoom = 8, st
         new google.maps.Marker({ position: center, map });
     }, [])
 
-    return <div ref={refMap} style={style} />
+    return <div ref={refMap} style={style} className={className}/>
 }
 export default Map;

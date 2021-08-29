@@ -16,7 +16,7 @@ type UserItemProps = {
 const userItem: React.FC<UserItemProps> = ({ user }) => {
     return <li className={styles.userItem}>
         <Card >
-            <Link to={"/" + user.id + "/places/"}>
+            <Link to={"/" + user.id + "/places"}>
                 <div className={styles.userItemImage}><Avatar src={user.image} width={100} height={100} /></div>
                 <div className={styles.userItemInfo}>
                     <h2>{user.name}</h2>

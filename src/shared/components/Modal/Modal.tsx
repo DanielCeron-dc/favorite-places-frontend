@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react';
+import React, { CSSProperties, useEffect } from 'react';
 import { AnimatePresence, motion } from "framer-motion";
 
 import Backdrop from '../Backdrop/Backdrop';
@@ -22,6 +22,21 @@ const ModalOverlay: React.FC<ModalOverlayProps> = (props) => {
 }
 
 const Modal: React.FC<ModalProps> = (props) => {
+
+    const { show } = props;
+
+
+    useEffect(() => {
+        if (show) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+        return () => {
+            document.body.style.overflow = 'unset';
+        }
+    }, [show]);
+
     return <AnimatePresence>
         {props.show && <>
             <Backdrop onClick={props.onClose} portal={true} key="backdrop2">

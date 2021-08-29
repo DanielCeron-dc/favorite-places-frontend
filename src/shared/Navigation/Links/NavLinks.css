@@ -19,7 +19,7 @@
   color: #292929;
   text-decoration: none;
   padding: 0.5rem;
-  border-radius: 25%;
+  border-radius: 10px;
 }
 
 .nav-links a:hover,

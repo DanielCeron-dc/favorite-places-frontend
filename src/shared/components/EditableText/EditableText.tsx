@@ -1,16 +1,20 @@
-import React, { useState } from 'react';
-import Button from '../../form/form-utils/Button/Button';
+import React, { forwardRef, useState } from 'react';
+import Button from '../../form/Button/Button';
 import classes from "./EditableText.module.css";
 
 import editsvg from "../../../assets/svg/edit.svg";
 import donesvg from "../../../assets/svg/done.svg";
+import { ForwardedRef } from 'react';
 
 type EditableTextProps = {
     type: 'p' | 'h3',
     active: boolean,
+    ref: ForwardedRef<HTMLTextAreaElement>;
+    children: string;
+    name: string;
 };
 
-const EditableText: React.FC<EditableTextProps> = (props) => {
+const EditableText = forwardRef<HTMLTextAreaElement, EditableTextProps>((props, ref) => {
 
     const [editing, setEditing] = useState(false);
 
@@ -21,7 +25,7 @@ const EditableText: React.FC<EditableTextProps> = (props) => {
         </p >
             :
             <>
-                <textarea name="" id="" rows={10} className={classes.p}>
+                <textarea name={props.name} id="" rows={10} className={classes.p} ref={ref}>
                     {props.children}
                 </textarea>
                 <Button className={classes.button} onClick={() => setEditing(false)}><img src={donesvg} /></Button>
@@ -35,7 +39,7 @@ const EditableText: React.FC<EditableTextProps> = (props) => {
         </h3 >
             :
             <>
-                <textarea name="" id="" rows={3} className={classes.h3}>
+                    <textarea name={props.name} id="" rows={3} className={classes.h3} ref={ref}>
                     {props.children}
                 </textarea>
                 <Button className={classes.button} onClick={() => setEditing(false)}><img src={donesvg} /></Button>
@@ -49,5 +53,5 @@ const EditableText: React.FC<EditableTextProps> = (props) => {
     </div>;
 
 
-}
+});
 export default EditableText;
