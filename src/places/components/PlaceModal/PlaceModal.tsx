@@ -1,6 +1,6 @@
-import React, { CSSProperties, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
-import useForm from '../../../hooks/useForm';
+import useForm, { IRef } from '../../../hooks/useForm';
 
 import EditableText from '../../../shared/components/EditableText/EditableText';
 import Modal from '../../../shared/components/Modal/Modal';
@@ -9,8 +9,11 @@ import { PlaceInterface } from '../../PlaceInterface';
 import Map from "../../../shared/components/Map";
 
 
-import deletesvg from '../../../assets/svg/delete.svg';
+
 import styles from './PlaceModal.module.css';
+import useWindow from '../../../hooks/useWindow';
+import { useHistory, useParams } from 'react-router-dom';
+import DeleteButtonWithTootilp from './DeleteButtonWithTooltip';
 
 type PlaceModalProps = {
     place: PlaceInterface;
@@ -18,64 +21,76 @@ type PlaceModalProps = {
     show: boolean;
 };
 
-const DeleteButtonWithTootilp: React.FC<{ onDelete: () =>void}> = () => {
-    
-    const [deleting, setDeleting] = useState(false);
-    
-    const tooltipStyle: CSSProperties = {
-        position: 'absolute',
-        backgroundColor: 'white',
-        borderRadius: '0 0 0 10px',
-        top: '-225%',
-        width: '220%', 
-        border: '1px solid #ccc',
-        padding: '10px',
-    }
-
-    return <div style={{ position: 'relative' }}>
-        {deleting && <div style={tooltipStyle}>
-            <h2 style={{margin: 'auto 0'}}>Are you sure ?</h2>
-            <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                <Button danger style={{ paddingTop: 0, paddingBottom: 0 }} type = "button">
-                    yes
-                </Button>
-                <Button style={{ paddingTop: 0, paddingBottom: 0 }} onClick={() => { setDeleting(false) }} type = "button">
-                    Cancel
-                </Button>
-            </div>
-        </div>}
-        <Button danger style={{ paddingTop: 0, paddingBottom: 0 }} onClick={() => {setDeleting(true)}} type = "button">
-            <img src={deletesvg} style={{ width: 30, margin: 0, padding: 0 }} />
-        </Button>
-    </div>
+const OnMobile: React.FC<{ register: (ref: IRef) => void, place: PlaceInterface, showMap: boolean, editing: boolean }> = ({ place, register, showMap, editing, children }) => {
+    return <>
+        <div style={{height: '40vh', width: '100%'}}>
+            {showMap ?
+                <Map center={place.coordinates} zoom={15} className={styles.map} />
+                :
+                <img src={place.image} alt={place.title} className={styles.img} />
+            }
+        </div>
+        <div className={styles.information_text}>
+            <EditableText name="title" active={editing} type="h3" ref={register}>{place.address}</EditableText>
+            <EditableText name="description" active={editing} type="p" ref={register}>{place.description}</EditableText>
+        </div>
+        {children}
+    </>
 }
+
+const OnDesktop: React.FC<{ register: (ref: IRef) => void, place: PlaceInterface | undefined, editing: boolean }> = ({ place, register ,  editing , children}) => {
+    if(!place) return null;
+    return <>
+        <Map center={place.coordinates} zoom={15} className={styles.map} />
+        <div className={styles.information}>
+            <img src={place.image} alt={place.title} className={styles.img} />
+            <div className={styles.information_text}>
+                <EditableText name="title" active={editing} type="h3" ref={register}>{place.address}</EditableText>
+                <EditableText name="description" active={editing} type="p" ref={register}>{place.description}</EditableText>
+                {children}
+            </div>
+        </div>
+    </>
+}
+        
+
 
 
 const PlaceModal: React.FC<PlaceModalProps> = ({ place, onClose, show }) => {
 
+    const [editing, setEditing] = useState(false);
     const { register, onSubmit } = useForm();
-    const [editing, setEditing] = useState(false); 
+    const { isMobile , isTablet} = useWindow();
+    const [showMap, setShowMap] = useState(false); //this is an option only available on mobile
+    const history = useHistory();
+    const { userId } = useParams<{userId:string}>();
 
-    const rightPanel = <div className={styles.information}>
-        <img src={place.image} alt={place.title} className={styles.img}/>
-        <div className={styles.information_text}>
-            <EditableText name="title" active={editing} type="h3" ref={register}>{place.address}</EditableText>
-            <EditableText name="description" active={editing} type="p" ref={register}>{place.description}</EditableText>
-            <div className={styles.information_buttons} >
-                {!editing && <Button type="button" onClick={onClose}>Close</Button>}
-                {
-                    editing && <DeleteButtonWithTootilp onDelete={() => { } } />
-                }
-                <Button inverseStyle type="button" onClick={() => setEditing(c => !c)}>
-                    {editing ? 'Cancel' : 'Edit'}
-                </Button>
-                {editing && <Button type="submit">Save</Button>}
-            </div>
-        </div>
+    const onCloseHandler = () => {
+        if (isMobile || isTablet) {
+            history.push(`/${userId}/places/`)
+        } else {
+            onClose();
+        }
+    }
+
+    const Actions = <div className={styles.information_buttons} >
+        {
+            editing ?
+                <DeleteButtonWithTootilp onDelete={() => { }} />
+                :
+                <Button type="button" onClick={onCloseHandler}>Close</Button>
+        }
+        <Button inverseStyle type="button" onClick={() => setEditing(c => !c)}>
+            {editing ? 'Cancel' : 'Edit'}
+        </Button>
+        {editing && <Button type="submit">Save</Button>}
+        {isMobile && <Button type="button" onClick={() => { setShowMap(s => !s) }} style={{padding:'0 10px'}}>
+            {showMap ? 'Hide Map' : 'Show Map'}
+        </Button>}
     </div>
 
     return <Modal
-        onClose={onClose}
+        onClose={onCloseHandler}
         show={show}
     >
         <form
@@ -86,8 +101,16 @@ const PlaceModal: React.FC<PlaceModalProps> = ({ place, onClose, show }) => {
                 setEditing(false);
             })}
         >
-            <Map center={place.coordinates} zoom={15} className={styles.map}  />
-            {rightPanel}
+            {isMobile ?
+                <OnMobile place={place} register={register} showMap={showMap} editing={editing}>
+                    { Actions }
+                </OnMobile>
+                :
+                <OnDesktop place={place} register={register} editing={editing}>
+                    {Actions}
+                </OnDesktop>
+            }
+            
         </form>
     </Modal>
 }

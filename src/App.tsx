@@ -10,6 +10,7 @@ import AddPlace from './places/pages/AddPlace';
 import AuthPage from './Auth/AuthPage/AuthPage';
 import { AnimatePresence, motion } from 'framer-motion';
 import PrivateRoute from './Auth/PrivateRoute';
+import PageUnderContruction from './shared/components/PageUnderConstruction/PageUnderContruction';
 
 
 
@@ -33,14 +34,15 @@ function App() {
         <Page> <AddPlace /> </Page>
       </PrivateRoute>
 
-      <Route path="/:userId/places" >
-        <Page> <UserPlaces /></Page>
+      <Route path="/:userId/places/:placeId?" >
+        <Page transparentMain> <UserPlaces /></Page>
       </Route>
 
       <Route path="/auth" >
         <Page transparentMain><AuthPage /></Page>
       </Route>
     </AnimatePresence>
+    <PageUnderContruction/>
   </div>
 }
 
@@ -54,7 +56,7 @@ const Page: React.FC<{transparentMain?: boolean}> = (props) => {
 
     {props.transparentMain ?
       <>
-        <MainNavigation style={{ backgroundColor: 'rgba(0,0,0,0)' }} />
+        <MainNavigation style={{ backgroundColor: 'rgba(30,30,30,0.5)' }} />
         {props.children}
       </> :
       <>

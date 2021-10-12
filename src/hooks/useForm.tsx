@@ -1,6 +1,6 @@
 import { FormEvent } from "react";
 
-type IRef = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement|  null; 
+export type IRef = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement|  null; 
 
 
 interface Iresponse {

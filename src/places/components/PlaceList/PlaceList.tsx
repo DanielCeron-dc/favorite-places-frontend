@@ -2,10 +2,11 @@ import React from 'react';
 import { useHistory , useRouteMatch} from 'react-router-dom'; 
 
 
-import Card from '../../shared/components/Card';
-import Button from '../../shared/form/Button/Button';
-import { PlaceInterface } from '../PlaceInterface';
-import PlaceItem from './PlaceItem';
+import Card from '../../../shared/components/Card';
+import Button from '../../../shared/form/Button/Button';
+import { PlaceInterface } from '../../PlaceInterface';
+import AddPlaceCard from '../AddPlaceCard';
+import PlaceItem from '../PlaceItem/PlaceItem';
 import "./PlaceList.css";
 
 type PlaceListProps = {
@@ -35,7 +36,8 @@ const PlaceList: React.FC<PlaceListProps> = (props) => {
             </Card>
         </div> :
         <ul className="place-list">
-            {props.places.map((place) => <PlaceItem place={place} key={place.id} />)}
+            <AddPlaceCard/>
+            {props.places.map((place, i) => <PlaceItem place={place} key={place.id} id={i}/>)}
         </ul>;
 
 }

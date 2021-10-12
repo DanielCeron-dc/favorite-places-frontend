@@ -22,6 +22,9 @@ interface basePropsforAtag extends baseProps {
 type ButtonProps = basePropsforAtag | basePropsforLink;
 
 const Button: React.FC<ButtonProps> = (props) => {
+    const propsCopy = { ...props };
+    delete propsCopy.inverseStyle;
+
     if (props.href) {
         return (
             <a
@@ -49,7 +52,8 @@ const Button: React.FC<ButtonProps> = (props) => {
             type={props.type}
             onClick={props.onClick}
             disabled={props.disabled}
-            {...props}
+            {...propsCopy
+            }
             className={`button button--${props.size || 'default'} ${props.inverseStyle &&
                 'button--inverse'} ${props.danger && 'button--danger'}  ${props.className}`}
         >
